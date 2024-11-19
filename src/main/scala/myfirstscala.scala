@@ -7,4 +7,5 @@ object MyApp extends JFXApp3:
     stage = new PrimaryStage()
 
       // Set the title of the window
+      // Set the width of the window
 end MyApp
