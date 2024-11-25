@@ -66,4 +66,4 @@ case class HospitalData(
     .maxBy(_._2)
 
   println("\nQuestion 1: Which state has the highest total hospital beds?")
-  println(s"Answer: ${stateWithMaxBeds._1} has the highest total with ${stateWithMaxBeds._2} hospital beds")  println(s"State with the highest total hospital beds: ${stateWithMaxBeds._1} with ${stateWithMaxBeds._2} beds.")
+  println(s"Answer: ${stateWithMaxBeds._1} has the highest total with ${stateWithMaxBeds._2} hospital beds") 
