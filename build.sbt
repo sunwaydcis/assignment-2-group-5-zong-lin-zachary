@@ -1,24 +1,29 @@
+val scala3Version = "3.3.4"
 
-ThisBuild / version := "0.1.0-SNAPSHOT"
-
-ThisBuild / scalaVersion := "3.3.4"
-
-lazy val root = (project in file("."))
+lazy val root = project
+  .in(file("."))
   .settings(
-    name := "introtosclafx",
+    name := "hospital-analysis",
+    version := "0.1.0-SNAPSHOT",
+    scalaVersion := scala3Version,
+
+    libraryDependencies ++= Seq(
+      "org.scalafx" %% "scalafx" % "20.0.0-R31"
+    ),
+
     libraryDependencies ++= {
-      // Determine OS version of JavaFX binaries
-      val osName = System.getProperty("os.name") match {
-        case n if n.startsWith("Linux")   => "linux"
-        case n if n.startsWith("Mac")     => "mac"
-        case n if n.startsWith("Windows") => "win"
-        case _                            => throw new Exception("Unknown platform!")
-      }
+      val javaFXVersion = "20.0.1"
       Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
-        .map(m => "org.openjfx" % s"javafx-$m" % "21.0.4" classifier osName)
-    },
-    libraryDependencies ++= Seq("org.scalafx" %% "scalafx" % "21.0.0-R32")
+        .map(m => "org.openjfx" % s"javafx-$m" % javaFXVersion classifier osName)
+    }
   )
+
+lazy val osName = System.getProperty("os.name") match {
+  case n if n.startsWith("Linux") => "linux"
+  case n if n.startsWith("Mac") => "mac"
+  case n if n.startsWith("Windows") => "win"
+  case _ => throw new Exception("Unknown platform!")
+}
 //enable for sbt-assembly
 //assembly / assemblyMergeStrategy := {
 //  case PathList("META-INF", xs @ _*) => MergeStrategy.discard // Discard all META-INF files
