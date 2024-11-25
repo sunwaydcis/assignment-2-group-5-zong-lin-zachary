@@ -20,5 +20,4 @@ object MyApp extends JFXApp3:
   override def start(): Unit =
     stage = new PrimaryStage()
 
-      // Set the title of the window
 end MyApp
