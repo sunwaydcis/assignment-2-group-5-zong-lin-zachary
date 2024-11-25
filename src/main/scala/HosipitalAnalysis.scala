@@ -59,11 +59,11 @@ case class HospitalData(
 
   // Question 1: State with the highest total hospital beds
   val stateWithMaxBeds = data
-    .groupBy(_.state)
-    .map { case (state, records) =>
-      (state, records.map(_.beds).sum)
+    .groupBy(record => (record.state, record.date))
+    .map { case ((state, date), records) =>
+      (state, date, records.map(_.beds).max)
     }
-    .maxBy(_._2)
+    .maxBy(_._3)
 
-  println("\nQuestion 1: Which state has the highest total hospital beds?")
-  println(s"Answer: ${stateWithMaxBeds._1} has the highest total with ${stateWithMaxBeds._2} hospital beds")
+  println("\nState with the highest number of beds on any date:")
+  println(s"Answer: ${stateWithMaxBeds._1} on ${stateWithMaxBeds._2} with ${stateWithMaxBeds._3} hospital beds")
