@@ -1,7 +1,4 @@
-import scalafx.application.JFXApp3
-import scalafx.application.JFXApp3.PrimaryStage
 import scala.io.Source
-import scala.collection.mutable.Map
 
 case class HospitalData(
   date: String,
