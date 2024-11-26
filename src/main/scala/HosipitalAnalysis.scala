@@ -76,3 +76,19 @@ case class HospitalData(
 
   println("\nRatio of beds dedicated for COVID-19 to total available hospital beds:")
   println(f"Answer: $ratioCovidBeds%.2f")
+
+  // Question 3: What are the averages of individuals in category x where x can be suspected/probable, COVID-19 positive, or non-COVID is being admitted to hospitals for each state?
+  val averagesByState = data
+    .groupBy(_.state)
+    .map { case (state, records) =>
+      val totalRecords = records.size
+      val avgTotalAdmitted = (records.map(_.admitted_total).sum + totalRecords / 2) / totalRecords
+      val avgCovidAdmitted = (records.map(_.admitted_covid).sum + totalRecords / 2) / totalRecords
+      val avgNonCovidAdmitted = (records.map(record => record.admitted_total - record.admitted_covid).sum + totalRecords / 2) / totalRecords
+      (state, avgTotalAdmitted, avgCovidAdmitted, avgNonCovidAdmitted)
+    }
+
+  println("\nAverages of admitted patients in each category for each state:")
+  averagesByState.foreach { case (state, avgTotalAdmitted, avgCovidAdmitted, avgNonCovidAdmitted) =>
+    println(f"State: $state, Total Admitted: $avgTotalAdmitted, COVID-19 Admitted: $avgCovidAdmitted, Non-COVID Admitted: $avgNonCovidAdmitted")
+  }
