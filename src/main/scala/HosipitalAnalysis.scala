@@ -88,4 +88,5 @@ case class HospitalData(
   println("\nAverages of admitted patients in each category for each state:")
   averagesByState.foreach { case (state, avgTotalAdmitted, avgCovidAdmitted, avgNonCovidAdmitted) =>
     println(f"State: $state, Total Admitted: $avgTotalAdmitted, COVID-19 Admitted: $avgCovidAdmitted, Non-COVID Admitted: $avgNonCovidAdmitted")
+    println("-" * 80)
   }
