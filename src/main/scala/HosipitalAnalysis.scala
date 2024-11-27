@@ -55,16 +55,23 @@ case class HospitalData(
       List.empty[HospitalData]
 
   // Question 1: State with the highest total hospital beds
-  val stateWithMaxBeds = data
-    .groupBy(record => (record.state, record.date))
-    .map { case ((state, date), records) =>
-      (state, date, records.map(_.beds).max)
-    }
-    .toList
-    .maxBy(_._3)
+  def calculateStateWithMaxBeds(states: List[HospitalData]): Unit = {
+    val stateWithMaxBeds = states
+      .groupBy(record => (record.state, record.date))
+      .map { case ((state, date), records) =>
+        (state, date, records.map(_.beds).max)
+      }
+      .toList
+      .maxBy(_._3)
 
-  println("\nState with the highest number of beds on any date:")
-  println(s"Answer: ${stateWithMaxBeds._1} on ${stateWithMaxBeds._2} with ${stateWithMaxBeds._3} hospital beds")
+    println("\nState with the highest number of beds on any date:")
+    println(s"Answer: ${stateWithMaxBeds._1} on ${stateWithMaxBeds._2} with ${stateWithMaxBeds._3} hospital beds")
+    println("-" * 70)
+    println()
+  }
+
+  // Call for Question 1
+  calculateStateWithMaxBeds(data)
   
   // Question 2: What are the ratio of bed dedicated for COVID-19 to total of available hospital bed in the dataset?
   def calculateCovidBedRatioForMalaysia(states: List[HospitalData]): Unit = {
@@ -74,6 +81,8 @@ case class HospitalData(
     val roundedRatioCovidBeds = (ratioCovidBeds * 100).round / 100.0
 
     println(s"Ratio of beds dedicated for COVID-19 to total available hospital beds in Malaysia: $roundedRatioCovidBeds")
+    println("-" * 100)
+    println()
   }
   // Call for Question 2
   calculateCovidBedRatioForMalaysia(data)
@@ -89,6 +98,8 @@ case class HospitalData(
       val avgNonCovidAdmitted = (nonCovidAdmitted.toDouble / numStates).round
 
       println(s"State: $stateKey, Average COVID-19 Admitted: $avgCovidAdmitted, Average Non-COVID Admitted: $avgNonCovidAdmitted")
+      println("-" * 100)
+      println()
     }
   }
   // Call for Question 3
