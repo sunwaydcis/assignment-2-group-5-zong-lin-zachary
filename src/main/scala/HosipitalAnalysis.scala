@@ -95,28 +95,33 @@ The map function is used to transform each line of the CSV file into HospitalDat
   
   // Question 3: What are the averages of individuals in category x where x can be suspected/probable, COVID-19 positive, or non-COVID is being admitted to hospitals for each state?
   def calculateAverageAdmittedPatientsByState(states: List[HospitalData]): Unit = {
-    // Group the records by state
     val statesGrouped = states.groupBy(_.state)
-    // Iterate over each group of records
+  
     statesGrouped.foreach { case (stateKey, stateList) =>
-      // Calculate the number of records for each state
       val numStates = stateList.length
-      // Calculate the total number of COVID-19 admitted patients for the current state
+    
+      // Calculate COVID-19 average
       val covidAdmitted = stateList.map(_.admitted_covid).sum
-      // Calculate the average number of COVID-19 admitted patients for the current state
       val avgCovidAdmitted = (covidAdmitted.toDouble / numStates).round
-      // Calculate the total number of non-COVID admitted patients for the current state
+    
+      // Calculate non-COVID average
       val nonCovidAdmitted = stateList.map(record => record.admitted_total - record.admitted_covid).sum
-      // Calculate the average number of non-COVID admitted patients for the current state
       val avgNonCovidAdmitted = (nonCovidAdmitted.toDouble / numStates).round
+    
+      // Calculate combined average
+      val totalAdmitted = covidAdmitted + nonCovidAdmitted
+      val avgTotalAdmitted = (totalAdmitted.toDouble / numStates).round
 
-      println(s"State: $stateKey, Average COVID-19 Admitted: $avgCovidAdmitted, Average Non-COVID Admitted: $avgNonCovidAdmitted")
-      println("-" * 100) // Separator
-      println() // New Line
+      println(s"State: $stateKey")
+      println(s"1. Average COVID-19 Admitted: $avgCovidAdmitted")
+      println(s"2. Average Non-COVID-19 Admitted: $avgNonCovidAdmitted") 
+      println(s"3. Average Total Admitted (COVID-19 + Non-COVID-19): $avgTotalAdmitted")
+      println("-" * 100)
+      println()
     }
   }
 
-  // Question 1
+  // Question 1  
   calculateStateWithMaxBeds(data)
   // Question 2
   calculateCovidBedRatioForMalaysia(data)
