@@ -24,3 +24,6 @@ case class HospitalData(
     - List operations for data processing
     - Map structures for state/date-based aggregations
     - Stream processing for efficient data handling
+
+### References
+- Scala 3 Collections: https://docs.scala-lang.org/scala3/book/collections-classes.html
