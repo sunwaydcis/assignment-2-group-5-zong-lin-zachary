@@ -1,24 +1,24 @@
 import scala.io.Source
 
 case class HospitalData(
-  date: String,
-  state: String,
-  beds: Int,
-  beds_covid: Int,
-  beds_noncrit: Int,
-  admitted_pui: Int,
-  admitted_covid: Int,
-  admitted_total: Int,
-  discharged_pui: Int,
-  discharged_covid: Int,
-  discharged_total: Int,
-  hosp_covid: Int,
-  hosp_pui: Int,
-  hosp_noncovid: Int
-)
+                         date: String,
+                         state: String,
+                         beds: Int,
+                         beds_covid: Int,
+                         beds_noncrit: Int,
+                         admitted_pui: Int,
+                         admitted_covid: Int,
+                         admitted_total: Int,
+                         discharged_pui: Int,
+                         discharged_covid: Int,
+                         discharged_total: Int,
+                         hosp_covid: Int,
+                         hosp_pui: Int,
+                         hosp_noncovid: Int
+                       )
 
 @main def HospitalAnalysis =
-  //Read and Parse CSV data
+  // Read and Parse CSV data
   def readHospitalData(filePath: String): List[HospitalData] =
     val source = Source.fromFile(filePath)
     val lines = source.getLines().drop(1).toList
@@ -67,26 +67,37 @@ case class HospitalData(
   println(s"Answer: ${stateWithMaxBeds._1} on ${stateWithMaxBeds._2} with ${stateWithMaxBeds._3} hospital beds")
 
   // Question 2: What are the ratio of bed dedicated for COVID-19 to total of available hospital bed in the dataset?
-  val totalBedsCovid = data.map(_.beds_covid).sum
+  /* val totalBedsCovid = data.map(_.beds_covid).sum
   val totalBeds = data.map(_.beds).sum
   val ratioCovidBeds = totalBedsCovid.toDouble / totalBeds
 
   println("\nRatio of beds dedicated for COVID-19 to total available hospital beds:")
-  println(f"Answer: $ratioCovidBeds%.2f")
+  println(f"Answer: $ratioCovidBeds%.2f") */
+
+  // Question 2: What are the ratio of bed dedicated for COVID-19 to total of available hospital bed in the dataset?
+  def calculateCovidBedRatioForMalaysia(states: List[HospitalData]): Unit = {
+    val totalBedsCovid = states.map(_.beds_covid).sum
+    val totalBeds = states.map(_.beds).sum
+    val ratioCovidBeds = totalBedsCovid.toDouble / totalBeds
+    val roundedRatioCovidBeds = (ratioCovidBeds * 100).round / 100.0
+
+    println(s"Ratio of beds dedicated for COVID-19 to total available hospital beds in Malaysia: $roundedRatioCovidBeds")
+  }
+  // Call for Question 2
+  calculateCovidBedRatioForMalaysia(data)
 
   // Question 3: What are the averages of individuals in category x where x can be suspected/probable, COVID-19 positive, or non-COVID is being admitted to hospitals for each state?
-  val averagesByState = data
-    .groupBy(_.state)
-    .map { case (state, records) =>
-      val totalRecords = records.size
-      val avgTotalAdmitted = (records.map(_.admitted_total).sum + totalRecords / 2) / totalRecords
-      val avgCovidAdmitted = (records.map(_.admitted_covid).sum + totalRecords / 2) / totalRecords
-      val avgNonCovidAdmitted = (records.map(record => record.admitted_total - record.admitted_covid).sum + totalRecords / 2) / totalRecords
-      (state, avgTotalAdmitted, avgCovidAdmitted, avgNonCovidAdmitted)
-    }
+  def calculateAverageAdmittedPatientsByState(states: List[HospitalData]): Unit = {
+    val statesGrouped = states.groupBy(_.state)
+    statesGrouped.foreach { case (stateKey, stateList) =>
+      val numStates = stateList.length
+      val covidAdmitted = stateList.map(_.admitted_covid).sum
+      val avgCovidAdmitted = (covidAdmitted.toDouble / numStates).round
+      val nonCovidAdmitted = stateList.map(record => record.admitted_total - record.admitted_covid).sum
+      val avgNonCovidAdmitted = (nonCovidAdmitted.toDouble / numStates).round
 
-  println("\nAverages of admitted patients in each category for each state:")
-  averagesByState.foreach { case (state, avgTotalAdmitted, avgCovidAdmitted, avgNonCovidAdmitted) =>
-    println(f"State: $state, Total Admitted: $avgTotalAdmitted, COVID-19 Admitted: $avgCovidAdmitted, Non-COVID Admitted: $avgNonCovidAdmitted")
-    println("-" * 80)
+      println(s"State: $stateKey, Average COVID-19 Admitted: $avgCovidAdmitted, Average Non-COVID Admitted: $avgNonCovidAdmitted")
+    }
   }
+  // Call for Question 3
+  calculateAverageAdmittedPatientsByState(data)
