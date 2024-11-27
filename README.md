@@ -1,5 +1,5 @@
 # Hospital Data Analysis Project
-Contributors: Zachary, Zong Lin
+Contributors: Zachary Soo Lap Vai, Goo Zong Lin
 
 ## Project Overview
 Analysis of hospital data focusing on bed capacity and COVID-19 metrics across different states. The project processes CSV data to answer key questions about hospital resource allocation and patient admissions.
