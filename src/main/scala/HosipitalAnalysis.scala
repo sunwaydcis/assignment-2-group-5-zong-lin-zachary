@@ -65,15 +65,7 @@ case class HospitalData(
 
   println("\nState with the highest number of beds on any date:")
   println(s"Answer: ${stateWithMaxBeds._1} on ${stateWithMaxBeds._2} with ${stateWithMaxBeds._3} hospital beds")
-
-  // Question 2: What are the ratio of bed dedicated for COVID-19 to total of available hospital bed in the dataset?
-  /* val totalBedsCovid = data.map(_.beds_covid).sum
-  val totalBeds = data.map(_.beds).sum
-  val ratioCovidBeds = totalBedsCovid.toDouble / totalBeds
-
-  println("\nRatio of beds dedicated for COVID-19 to total available hospital beds:")
-  println(f"Answer: $ratioCovidBeds%.2f") */
-
+  
   // Question 2: What are the ratio of bed dedicated for COVID-19 to total of available hospital bed in the dataset?
   def calculateCovidBedRatioForMalaysia(states: List[HospitalData]): Unit = {
     val totalBedsCovid = states.map(_.beds_covid).sum
